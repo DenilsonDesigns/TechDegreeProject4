@@ -67,14 +67,16 @@ function vsHumanGame(){
     player1active();
 
     for(let i=0; i<boxes.length; i++){
-        if(player1Tag.className= "players active"){
-            boxes[i].addEventListener('click', ()=>{
-                player2active();
-            });
-       
-        }  
+        boxes[i].addEventListener('click', ()=>{
+            if(whichPlayerActive()==true){
+            player2active();
+            }
+            else{
+                player1active();
+            }
+
+        });   
     }
-    
 }
 
 //player 1 is active
@@ -90,4 +92,12 @@ function player2active(){
     player2Tag.className= "players active";
     player1Tag.className= "players";
     listenClicks(2);
+}
+
+function whichPlayerActive(){
+    if(player1Tag.classList.contains("active")===true){
+        return true;
+    }else{
+        return false;
+    }
 }
