@@ -56,10 +56,11 @@ function listenClicks(playerNumber){
     for(let i=0; i<boxes.length; i++){
         if(!boxes[i].classList.contains("checked")){
             boxes[i].addEventListener('click', ()=>{
-                boxes[i].className= "box checked box-filled-"+playerNumber;
                 if(playerNumber== 1){
+                    boxes[i].className= "box checked box-filled-1";
                     player2active();
-                }else{
+                }else if(playerNumber==2){
+                    boxes[i].className= "box checked box-filled-2";
                     player1active();
                 }
             });
@@ -78,23 +79,23 @@ function vsHumanGame(){
 
 //player 1 is active
 function player1active(){
-    player1Tag.className= "players active";
-    player2Tag.className= "players";
+    player1Tag.classList.add('active');
+    player2Tag.classList.remove('active');
     listenClicks(1);
 }
 
 
 //player 2 is active
 function player2active(){
-    player2Tag.className= "players active";
-    player1Tag.className= "players";
+    player2Tag.classList.add('active');
+    player1Tag.classList.remove('active');
     listenClicks(2);
 }
 
-function whichPlayerActive(){
-    if(player1Tag.classList.contains("active")===true){
-        return true;
-    }else{
-        return false;
-    }
-}
+// function whichPlayerActive(){
+//     if(player1Tag.classList.contains("active")===true){
+//         return true;
+//     }else{
+//         return false;
+//     }
+// }
