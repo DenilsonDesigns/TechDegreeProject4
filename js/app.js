@@ -41,6 +41,7 @@ winNewGameButton.textContent= 'New game';
 //******************************************** */
 
 
+
 //start button event listener.
 startButton.addEventListener('click', ()=>{
 
@@ -53,11 +54,17 @@ vsHumanGame();
 function listenClicks(playerNumber){
     //test for button clicks. 
     for(let i=0; i<boxes.length; i++){
-        boxes[i].addEventListener('click', ()=>{
-            if(boxes[i].className != "box checked"){
+        if(!boxes[i].classList.contains("checked")){
+            boxes[i].addEventListener('click', ()=>{
                 boxes[i].className= "box checked box-filled-"+playerNumber;
-            }
-        });
+                if(playerNumber== 1){
+                    player2active();
+                }else{
+                    player1active();
+                }
+            });
+            
+        }
     }
 }
 
@@ -66,17 +73,7 @@ function listenClicks(playerNumber){
 function vsHumanGame(){
     player1active();
 
-    for(let i=0; i<boxes.length; i++){
-        boxes[i].addEventListener('click', ()=>{
-            if(whichPlayerActive()==true){
-            player2active();
-            }
-            else{
-                player1active();
-            }
 
-        });   
-    }
 }
 
 //player 1 is active
