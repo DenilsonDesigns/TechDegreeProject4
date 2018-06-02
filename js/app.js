@@ -31,6 +31,7 @@ const winNewGameButton= document.createElement('a');
 winDiv.appendChild(winHeader).appendChild(winH1);
 winHeader.appendChild(winP);
 winHeader.appendChild(winNewGameButton);
+body.appendChild(winDiv);
 winDiv.className= "screen screen-win";
 winDiv.id= "finish";
 winH1.textContent= "Tic Tac Toe";
@@ -53,7 +54,6 @@ startButton.addEventListener('click', ()=>{
 winNewGameButton.addEventListener('click', ()=>{
     winDiv.style.display= "none";
     clearBoard();
-    turnCount=0;//does not reset game to start on o 
     vsGame();
 });
 
@@ -124,8 +124,8 @@ function vsGame(){
         checkWin(xTagged, 3,4,5);
         checkWin(oTagged, 6,7,8);
         checkWin(xTagged, 6,7,8);
-        if(isDraw()){
-            winDiv.style.display== "block";
+        if(isDraw()== true){
+            winDiv.style.display= "block";
             winDiv.style.backgroundColor= "#54D17A";
             winP.textContent= "Draw";
             }
@@ -163,13 +163,15 @@ function isDraw(){
 
 
 function clearBoard(){
-    //clear board
-    //need a lot of work here. 
+    oTagged= [];
+    xTagged= [];
+    squaresUsed= [];
+    turnCount=0;
+    // player1Tag.className= "players active";
+    // player2Tag.className= "players";
+
     for(let j=0; j<boxes.length; j++){
         boxes[j].className= "box";
-        oTagged= [];
-        xTagged= [];
-        squaresUsed= [];
     }
 }
 
