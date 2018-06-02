@@ -38,6 +38,7 @@ winP.className= "message";
 winNewGameButton.href= '#';
 winNewGameButton.className= "button";
 winNewGameButton.textContent= 'New game';
+winDiv.style.display= "none";
 //******************************************** */
 
 
@@ -56,6 +57,7 @@ winNewGameButton.addEventListener('click', ()=>{
     vsGame();
 });
 
+
 let oTagged= [];
 let xTagged= [];
 let squaresUsed= [];
@@ -66,6 +68,26 @@ function vsGame(){
     player1Tag.className= "players active";
     player2Tag.className= "players";
     for(let i=0; i< boxes.length; i++){
+        //add hover effect on squares depending on player
+        boxes[i].addEventListener('mouseover', ()=> {
+            if(!boxes[i].classList.contains("checked")){
+                if(player1Tag.classList.contains('active')){
+                    boxes[i].style.backgroundImage= "url('../img/o.svg')";
+                    }else{
+                    boxes[i].style.backgroundImage= "url('../img/x.svg')";
+                }
+            }
+        });
+        //remove hover effect when mouse leaves square 
+        boxes[i].addEventListener('mouseleave', ()=> {
+            if(!boxes[i].classList.contains("checked")){
+                if(player1Tag.classList.contains('active')){
+                    boxes[i].style.backgroundImage= "";
+                    }else{
+                    boxes[i].style.backgroundImage= "";
+                    }
+            }
+        });
         boxes[i].addEventListener('click', ()=> {
         if(!boxes[i].classList.contains("checked")){
             if(turnCount % 2 == 0){
@@ -102,31 +124,14 @@ function vsGame(){
         checkWin(xTagged, 3,4,5);
         checkWin(oTagged, 6,7,8);
         checkWin(xTagged, 6,7,8);
-
-        //add hover effect on squares depending on player
-        boxes[i].addEventListener('mouseover', ()=> {
-            if(!boxes[i].classList.contains("checked")){
-                if(player1Tag.classList.contains('active')){
-                   boxes[i].style.backgroundImage= "url('../img/o.svg')";
-                }else{
-                    boxes[i].style.backgroundImage= "url('../img/x.svg')";
-                }
+        if(isDraw()){
+            winDiv.style.display== "block";
+            winDiv.style.backgroundColor= "#54D17A";
+            winP.textContent= "Draw";
             }
-        });
-        //remove hover effect when mouse leaves square 
-        boxes[i].addEventListener('mouseleave', ()=> {
-            if(!boxes[i].classList.contains("checked")){
-                if(player1Tag.classList.contains('active')){
-                   boxes[i].style.backgroundImage= "";
-                }else{
-                    boxes[i].style.backgroundImage= "";
-                }
-            }
-        });
-
-    }
+    });
+  }
 }
-
 
 
 function checkWin(playerArray, a, b, c){
@@ -153,27 +158,20 @@ function isDraw(){
         return true;
             }else {
                 return false;
-            }
-
-            // if(isDraw()==true){
-            //     winDiv.style.display== "block";
-            //     winDiv.style.backgroundColor= "#54D17A";
-            //     winP.textContent= "Draw";
-            //     }
-            // });
+            }       
 }
 
 
 function clearBoard(){
-        //clear board
-        //need a lot of work here. 
-        for(let j=0; j<boxes.length; j++){
-            boxes[j].className= "box";
-            oTagged= [];
-            xTagged= [];
-            squaresUsed= [];
-        }
+    //clear board
+    //need a lot of work here. 
+    for(let j=0; j<boxes.length; j++){
+        boxes[j].className= "box";
+        oTagged= [];
+        xTagged= [];
+        squaresUsed= [];
+    }
 }
 
-//draw div
+
 
