@@ -28,6 +28,12 @@ body.appendChild(startDiv);
 const player1name= document.createElement('input');
 startHeader.appendChild(player1name);
 player1name.placeholder= 'Player 1 Name';
+//vs. AI button
+const vsAIbutton= document.createElement('a');
+vsAIbutton.textContent= "Play vs. AI";
+vsAIbutton.href= "#";
+vsAIbutton.className= "button";
+startHeader.appendChild(vsAIbutton);
 //******************************************* */
 
 //creating win screen***********************
@@ -53,9 +59,15 @@ winDiv.style.display= "none";
 
 //start button event listener.
 startButton.addEventListener('click', ()=>{
-
     startDiv.style.display="none";
     vsGame();
+});
+
+//vsAIbutton event listener
+vsAIbutton.addEventListener('click', ()=>{
+    startDiv.style.display= "none";
+    vsAIGame();
+
 });
 
 //win new game button event listener
@@ -144,6 +156,78 @@ function vsGame(){
   }
 }
 
+let squaresAvail= [0, 1, 2, 3, 4, 5, 6, 7, 8];
+function vsAIGame(){
+    
+    player1TagName.textContent= player1name.value;
+
+    player1Tag.className= "players active";
+    player2Tag.className= "players";
+    for(let i=0; i< boxes.length; i++){
+        //add hover effect on squares depending on player
+        boxes[i].addEventListener('mouseover', ()=> {
+            if(!boxes[i].classList.contains("checked")){
+                if(player1Tag.classList.contains('active')){
+                    boxes[i].style.backgroundImage= "url('../img/o.svg')";
+                    }
+            }
+        });
+        //remove hover effect when mouse leaves square 
+        boxes[i].addEventListener('mouseleave', ()=> {
+            if(!boxes[i].classList.contains("checked")){
+                if(player1Tag.classList.contains('active')){
+                    boxes[i].style.backgroundImage= "";
+                    }else{
+                    boxes[i].style.backgroundImage= "";
+                    }
+            }
+        });
+        boxes[i].addEventListener('click', ()=> {
+        if(!boxes[i].classList.contains("checked")){
+           
+            boxes[i].className= "box checked box-filled-1"
+            player2Tag.classList.add('active');
+            player1Tag.classList.remove('active');
+            oTagged.push(i);
+            squaresUsed.push(i);
+            squaresAvail.splice(i, 1);
+            
+            console.log(squaresAvail);
+            console.log(squaresUsed);
+            console.log(oTagged);
+          
+            AIplay();
+            console.log(squaresAvail);
+            console.log(squaresUsed);
+            console.log(xTagged);
+            
+            
+         
+        }
+        checkWin(oTagged, 0,1,2);
+        checkWin(xTagged, 0,1,2);
+        checkWin(oTagged, 0,3,6);
+        checkWin(xTagged, 0,3,6);
+        checkWin(oTagged, 0,4,8);
+        checkWin(xTagged, 0,4,8);
+        checkWin(oTagged, 1,4,7);
+        checkWin(xTagged, 1,4,7);
+        checkWin(oTagged, 2,4,6);
+        checkWin(xTagged, 2,4,6);
+        checkWin(oTagged, 2,5,8);
+        checkWin(xTagged, 2,5,8);
+        checkWin(oTagged, 3,4,5);
+        checkWin(xTagged, 3,4,5);
+        checkWin(oTagged, 6,7,8);
+        checkWin(xTagged, 6,7,8);
+        if(isDraw()== true){
+            winDiv.style.display= "block";
+            winDiv.style.backgroundColor= "#54D17A";
+            winP.textContent= "Draw";
+            }
+    });
+  }
+}
 
 function checkWin(playerArray, a, b, c){
     if(playerArray.includes(a) &&
@@ -178,13 +262,9 @@ function clearBoard(){
     xTagged= [];
     squaresUsed= [];
     turnCount=0;
-
-
+    squaresAvail= [0, 1, 2, 3, 4, 5, 6, 7, 8];
     for(let j=0; j<boxes.length; j++){
         boxes[j].className= "box";
-        boxes[j].backgroundImage="";
-    }
-    for(let j=0; j<boxes.length; j++){
         boxes[j].backgroundImage="";
     }
 }
@@ -195,5 +275,23 @@ start vsAI game()
 
 */
 
+function AIsquareSelection(){
+    let computerChoice= Math.floor(Math.random() * (squaresAvail.length));
 
+    return squaresAvail[computerChoice];
+}
 
+function AIplay(){
+    let choice= AIsquareSelection();
+    player1Tag.classList.add('active');
+    player2Tag.classList.remove('active');
+
+    boxes[choice].className= "box checked box-filled-2";
+    
+    console.log(choice);
+    xTagged.push(choice);
+    squaresUsed.push(choice);
+    squaresAvail.splice(choice, 1);
+    turnCount ++;
+    
+}
