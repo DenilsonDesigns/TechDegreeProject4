@@ -4,7 +4,11 @@ const body= document.getElementsByTagName('body')[0];
 const boxesDiv= document.getElementsByClassName('boxes')[0];
 const boxes= document.getElementsByClassName('box');
 const player1Tag= document.getElementById('player1');
+const player1TagName= document.createElement('p');
+player1Tag.appendChild(player1TagName);
 const player2Tag= document.getElementById('player2');
+const player2TagName= document.createElement('p');
+player2Tag.appendChild(player2TagName);
 
 //creating start screen************************
 const startDiv= document.createElement('div');
@@ -20,6 +24,10 @@ startButton.textContent= "Start game";
 startButton.href= '#';
 startButton.className= "button";
 body.appendChild(startDiv);
+//Name field
+const player1name= document.createElement('input');
+startHeader.appendChild(player1name);
+player1name.placeholder= 'Player 1 Name';
 //******************************************* */
 
 //creating win screen***********************
@@ -61,9 +69,11 @@ winNewGameButton.addEventListener('click', ()=>{
 let oTagged= [];
 let xTagged= [];
 let squaresUsed= [];
+let turnCount= 0;
 
 function vsGame(){
-    let turnCount= 0;
+    
+    player1TagName.textContent= player1name.value;
 
     player1Tag.className= "players active";
     player2Tag.className= "players";
@@ -92,21 +102,22 @@ function vsGame(){
         if(!boxes[i].classList.contains("checked")){
             if(turnCount % 2 == 0){
                 boxes[i].className= "box checked box-filled-1"
-                turnCount ++;
+                // turnCount ++;
                 player2Tag.classList.add('active');
                 player1Tag.classList.remove('active');
                 oTagged.push(i);
                 squaresUsed.push(i);
-                console.log(squaresUsed);
+                console.log(turnCount);
             }else{
                 boxes[i].className= "box checked box-filled-2";
-                turnCount ++;
+                // turnCount ++;
                 player1Tag.classList.add('active');
                 player2Tag.classList.remove('active');
                 xTagged.push(i);
                 squaresUsed.push(i);
-                console.log(squaresUsed);
+                console.log(turnCount);
             }
+            turnCount ++;
         }
         checkWin(oTagged, 0,1,2);
         checkWin(xTagged, 0,1,2);
@@ -167,13 +178,22 @@ function clearBoard(){
     xTagged= [];
     squaresUsed= [];
     turnCount=0;
-    // player1Tag.className= "players active";
-    // player2Tag.className= "players";
+
 
     for(let j=0; j<boxes.length; j++){
         boxes[j].className= "box";
+        boxes[j].backgroundImage="";
+    }
+    for(let j=0; j<boxes.length; j++){
+        boxes[j].backgroundImage="";
     }
 }
+
+/* ToDeau 
+add name field to start screen
+start vsAI game()
+
+*/
 
 
 
