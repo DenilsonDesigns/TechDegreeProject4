@@ -108,9 +108,9 @@ function vsGame(){
         boxes[i].addEventListener('mouseover', ()=> {
             if(!boxes[i].classList.contains("checked")){
                 if(player1Tag.classList.contains('active')){
-                    boxes[i].style.backgroundImage= "url('../img/o.svg')";
+                    boxes[i].style.backgroundImage= "url('img/o.svg')";
                     }else{
-                    boxes[i].style.backgroundImage= "url('../img/x.svg')";
+                    boxes[i].style.backgroundImage= "url('img/x.svg')";
                 }
             }
         });
@@ -180,7 +180,7 @@ function vsAIGame(){
         boxes[i].addEventListener('mouseover', ()=> {
             if(!boxes[i].classList.contains("checked")){
                 if(player1Tag.classList.contains('active')){
-                    boxes[i].style.backgroundImage= "url('../img/o.svg')";
+                    boxes[i].style.backgroundImage= "url('img/o.svg')";
                     }
             }
         });
@@ -244,14 +244,14 @@ function checkWin(playerArray, a, b, c){
             winDiv.style.display= "block";
             if(playerArray== oTagged){
             winDiv.style.backgroundColor= "#FFA000";
-                if(player1name.textContent= ""){
+                if(player1name.value== ""){
                 winP.textContent= "Player 1 Wins";
                 }else{
                     winP.textContent= player1name.value+ " wins!";
                 }
             }else if(playerArray== xTagged){
                 winDiv.style.backgroundColor= "#3688C3";
-                    if(player2name.textContent= ""){
+                    if(player2name.value== ""){
                         winP.textContent= "Player 2 Wins"; 
                     }else{
                         winP.textContent= player2name.value+ " wins!";
