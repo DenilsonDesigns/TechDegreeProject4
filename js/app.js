@@ -202,7 +202,10 @@ function vsAIGame(){
             player1Tag.classList.remove('active');
             oTagged.push(i);
             squaresUsed.push(i);
-            squaresAvail.splice(i, 1);
+            console.log(i);
+            let arrayRemove= squaresAvail.indexOf(i);
+            squaresAvail.splice(arrayRemove, 1);
+    
             console.log(squaresAvail);
            
             AIplay();
@@ -241,10 +244,19 @@ function checkWin(playerArray, a, b, c){
             winDiv.style.display= "block";
             if(playerArray== oTagged){
             winDiv.style.backgroundColor= "#FFA000";
-            winP.textContent= "Player 1 Wins";
+                if(player1name.textContent= ""){
+                winP.textContent= "Player 1 Wins";
+                }else{
+                    winP.textContent= player1name.value+ " wins!";
+                }
             }else if(playerArray== xTagged){
                 winDiv.style.backgroundColor= "#3688C3";
-                winP.textContent= "Player 2 Wins"; 
+                    if(player2name.textContent= ""){
+                        winP.textContent= "Player 2 Wins"; 
+                    }else{
+                        winP.textContent= player2name.value+ " wins!";
+                    }
+                
             }
     }
 }
@@ -280,11 +292,13 @@ function AIplay(){
     player1Tag.classList.add('active');
     player2Tag.classList.remove('active');
 
-    boxes[compArray].className= "box checked box-filled-2";
-    
-    
+    if(squaresAvail.length>0){
+        boxes[compArray].className= "box checked box-filled-2";
+    }
     xTagged.push(compArray);
     squaresUsed.push(boxes[compArray]);//must stay
-    squaresAvail.splice(computerChoice, 1);
+    console.log(compArray);
+    let arrayRemove= squaresAvail.indexOf(compArray);
+    squaresAvail.splice(arrayRemove, 1);
     console.log(squaresAvail);
 }
