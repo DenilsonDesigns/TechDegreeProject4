@@ -2,6 +2,7 @@
 const body= document.getElementsByTagName('body')[0];
 //selecting boxes
 const boxesDiv= document.getElementsByClassName('boxes')[0];
+boxesDiv.style.marginTop= '80px';
 const boxes= document.getElementsByClassName('box');
 const player1Tag= document.getElementById('player1');
 const player1TagName= document.createElement('p');
@@ -24,15 +25,27 @@ startButton.textContent= "Start game";
 startButton.href= '#';
 startButton.className= "button";
 body.appendChild(startDiv);
-//Name field
+//Name field and div 
+const nameFieldDiv1= document.createElement('div');
+const nameFieldDiv2= document.createElement('div');
+startHeader.appendChild(nameFieldDiv1);
+startHeader.appendChild(nameFieldDiv2);
 const player1name= document.createElement('input');
-startHeader.appendChild(player1name);
+const player2name= document.createElement('input');
+nameFieldDiv1.appendChild(player1name);
+player1name.style.display= 'inline-block';
+player2name.style.display= 'inline-block';
+player1name.style.marginTop= "20px";
+player2name.style.marginTop= '20px';
+nameFieldDiv2.appendChild(player2name);
 player1name.placeholder= 'Player 1 Name';
+player2name.placeholder= 'Player 2 Name';
 //vs. AI button
 const vsAIbutton= document.createElement('a');
 vsAIbutton.textContent= "Play vs. AI";
 vsAIbutton.href= "#";
 vsAIbutton.className= "button";
+vsAIbutton.style.marginTop= "20px";
 startHeader.appendChild(vsAIbutton);
 //******************************************* */
 
@@ -86,6 +99,7 @@ let turnCount= 0;
 function vsGame(){
     
     player1TagName.textContent= player1name.value;
+    player2TagName.textContent= player2name.value;
 
     player1Tag.className= "players active";
     player2Tag.className= "players";
@@ -103,11 +117,9 @@ function vsGame(){
         //remove hover effect when mouse leaves square 
         boxes[i].addEventListener('mouseleave', ()=> {
             if(!boxes[i].classList.contains("checked")){
-                if(player1Tag.classList.contains('active')){
-                    boxes[i].style.backgroundImage= "";
-                    }else{
-                    boxes[i].style.backgroundImage= "";
-                    }
+               
+                boxes[i].style.backgroundImage= "";
+                  
             }
         });
         boxes[i].addEventListener('click', ()=> {
@@ -191,18 +203,10 @@ function vsAIGame(){
             oTagged.push(i);
             squaresUsed.push(i);
             squaresAvail.splice(i, 1);
-            
             console.log(squaresAvail);
-            console.log(squaresUsed);
-            console.log(oTagged);
-          
+           
             AIplay();
-            console.log(squaresAvail);
-            console.log(squaresUsed);
-            console.log(xTagged);
             
-            
-         
         }
         checkWin(oTagged, 0,1,2);
         checkWin(xTagged, 0,1,2);
@@ -248,7 +252,7 @@ function checkWin(playerArray, a, b, c){
 
 //cannot get this function to return true when draw
 function isDraw(){
-    if(squaresUsed.length== 9 &&
+    if(squaresUsed.length>= 9 &&
         winDiv.style.display== "none"){
         return true;
             }else {
@@ -265,33 +269,22 @@ function clearBoard(){
     squaresAvail= [0, 1, 2, 3, 4, 5, 6, 7, 8];
     for(let j=0; j<boxes.length; j++){
         boxes[j].className= "box";
-        boxes[j].backgroundImage="";
+        boxes[j].style.backgroundImage="";
     }
 }
 
-/* ToDeau 
-add name field to start screen
-start vsAI game()
-
-*/
-
-function AIsquareSelection(){
+function AIplay(){
     let computerChoice= Math.floor(Math.random() * (squaresAvail.length));
 
-    return squaresAvail[computerChoice];
-}
-
-function AIplay(){
-    let choice= AIsquareSelection();
+    let compArray= squaresAvail[computerChoice];
     player1Tag.classList.add('active');
     player2Tag.classList.remove('active');
 
-    boxes[choice].className= "box checked box-filled-2";
+    boxes[compArray].className= "box checked box-filled-2";
     
-    console.log(choice);
-    xTagged.push(choice);
-    squaresUsed.push(choice);
-    squaresAvail.splice(choice, 1);
-    turnCount ++;
     
+    xTagged.push(compArray);
+    squaresUsed.push(boxes[compArray]);//must stay
+    squaresAvail.splice(computerChoice, 1);
+    console.log(squaresAvail);
 }
