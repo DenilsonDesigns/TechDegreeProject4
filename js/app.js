@@ -90,7 +90,6 @@ winNewGameButton.addEventListener('click', ()=>{
     vsGame();
 });
 
-
 let oTagged= [];
 let xTagged= [];
 let squaresUsed= [];
@@ -125,54 +124,34 @@ function vsGame(){
         boxes[i].addEventListener('click', ()=> {
         if(!boxes[i].classList.contains("checked")){
             if(turnCount % 2 == 0){
-                boxes[i].className= "box checked box-filled-1"
-                // turnCount ++;
+                boxes[i].className= "box checked box-filled-1";
                 player2Tag.classList.add('active');
                 player1Tag.classList.remove('active');
                 oTagged.push(i);
                 squaresUsed.push(i);
                 console.log(turnCount);
+                checkWinO();
+                turnCount ++;
+                isDrawCheck();
             }else{
                 boxes[i].className= "box checked box-filled-2";
-                // turnCount ++;
                 player1Tag.classList.add('active');
                 player2Tag.classList.remove('active');
                 xTagged.push(i);
                 squaresUsed.push(i);
                 console.log(turnCount);
-            }
-            turnCount ++;
+                checkWinX();
+                turnCount ++;
+                isDrawCheck();
+            }  
         }
-        checkWin(oTagged, 0,1,2);
-        checkWin(xTagged, 0,1,2);
-        checkWin(oTagged, 0,3,6);
-        checkWin(xTagged, 0,3,6);
-        checkWin(oTagged, 0,4,8);
-        checkWin(xTagged, 0,4,8);
-        checkWin(oTagged, 1,4,7);
-        checkWin(xTagged, 1,4,7);
-        checkWin(oTagged, 2,4,6);
-        checkWin(xTagged, 2,4,6);
-        checkWin(oTagged, 2,5,8);
-        checkWin(xTagged, 2,5,8);
-        checkWin(oTagged, 3,4,5);
-        checkWin(xTagged, 3,4,5);
-        checkWin(oTagged, 6,7,8);
-        checkWin(xTagged, 6,7,8);
-        if(isDraw()== true){
-            winDiv.style.display= "block";
-            winDiv.style.backgroundColor= "#54D17A";
-            winP.textContent= "Draw";
-            }
     });
   }
 }
 
 let squaresAvail= [0, 1, 2, 3, 4, 5, 6, 7, 8];
 function vsAIGame(){
-    
     player1TagName.textContent= player1name.value;
-
     player1Tag.className= "players active";
     player2Tag.className= "players";
     for(let i=0; i< boxes.length; i++){
@@ -196,8 +175,7 @@ function vsAIGame(){
         });
         boxes[i].addEventListener('click', ()=> {
         if(!boxes[i].classList.contains("checked")){
-           
-            boxes[i].className= "box checked box-filled-1"
+            boxes[i].className= "box checked box-filled-1";
             player2Tag.classList.add('active');
             player1Tag.classList.remove('active');
             oTagged.push(i);
@@ -205,33 +183,17 @@ function vsAIGame(){
             console.log(i);
             let arrayRemove= squaresAvail.indexOf(i);
             squaresAvail.splice(arrayRemove, 1);
-    
             console.log(squaresAvail);
-           
+            checkWinO();
+            isDrawCheck();
+            //end player1 turn
+            //AI turn
+            if(StopAI()==false){
             AIplay();
-            
-        }
-        checkWin(oTagged, 0,1,2);
-        checkWin(xTagged, 0,1,2);
-        checkWin(oTagged, 0,3,6);
-        checkWin(xTagged, 0,3,6);
-        checkWin(oTagged, 0,4,8);
-        checkWin(xTagged, 0,4,8);
-        checkWin(oTagged, 1,4,7);
-        checkWin(xTagged, 1,4,7);
-        checkWin(oTagged, 2,4,6);
-        checkWin(xTagged, 2,4,6);
-        checkWin(oTagged, 2,5,8);
-        checkWin(xTagged, 2,5,8);
-        checkWin(oTagged, 3,4,5);
-        checkWin(xTagged, 3,4,5);
-        checkWin(oTagged, 6,7,8);
-        checkWin(xTagged, 6,7,8);
-        if(isDraw()== true){
-            winDiv.style.display= "block";
-            winDiv.style.backgroundColor= "#54D17A";
-            winP.textContent= "Draw";
+            checkWinX();
+            isDrawCheck();
             }
+        }
     });
   }
 }
@@ -258,7 +220,53 @@ function checkWin(playerArray, a, b, c){
                     }
                 
             }
+            return true;
     }
+    else {
+        return false;
+    }
+}
+
+
+function checkWinO(){
+    checkWin(oTagged, 0,1,2);
+    checkWin(oTagged, 0,3,6);
+    checkWin(oTagged, 0,4,8);
+    checkWin(oTagged, 1,4,7);
+    checkWin(oTagged, 2,4,6);
+    checkWin(oTagged, 2,5,8);
+    checkWin(oTagged, 3,4,5);
+    checkWin(oTagged, 6,7,8);
+}
+
+
+function checkWinX(){
+    checkWin(xTagged, 0,1,2);
+    checkWin(xTagged, 0,3,6);
+    checkWin(xTagged, 0,4,8);
+    checkWin(xTagged, 1,4,7);
+    checkWin(xTagged, 2,4,6);
+    checkWin(xTagged, 2,5,8);
+    checkWin(xTagged, 3,4,5);
+    checkWin(xTagged, 6,7,8);
+}
+
+function StopAI(){
+    if(checkWin(oTagged, 0,1,2)||
+    checkWin(oTagged, 0,3,6)||
+    checkWin(oTagged, 0,4,8)||
+    checkWin(oTagged, 1,4,7)||
+    checkWin(oTagged, 2,4,6)||
+    checkWin(oTagged, 2,5,8)||
+    checkWin(oTagged, 3,4,5)||
+    checkWin(oTagged, 6,7,8)
+    ==true
+    ){
+        return true;
+    }
+        else {
+            return false;
+        }
 }
 
 
@@ -270,6 +278,14 @@ function isDraw(){
             }else {
                 return false;
             }       
+}
+
+function isDrawCheck(){
+    if(isDraw()== true){
+        winDiv.style.display= "block";
+        winDiv.style.backgroundColor= "#54D17A";
+        winP.textContent= "Draw";
+        }
 }
 
 
@@ -289,9 +305,7 @@ function AIplay(){
     let computerChoice= Math.floor(Math.random() * (squaresAvail.length));
 
     let compArray= squaresAvail[computerChoice];
-    player1Tag.classList.add('active');
-    player2Tag.classList.remove('active');
-
+    
     if(squaresAvail.length>0){
         boxes[compArray].className= "box checked box-filled-2";
     }
@@ -301,4 +315,7 @@ function AIplay(){
     let arrayRemove= squaresAvail.indexOf(compArray);
     squaresAvail.splice(arrayRemove, 1);
     console.log(squaresAvail);
+    
+    player2Tag.classList.remove('active');
+    player1Tag.classList.add('active');
 }
